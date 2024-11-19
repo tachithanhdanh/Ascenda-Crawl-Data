@@ -263,12 +263,17 @@ class HotelsService:
         # print(hotel_ids, destination_ids)
         if (len(hotel_ids) == 0) or (len(destination_ids) == 0):
             return self.data
-        return [
-            hotel
-            for hotel in self.data
-            if str(hotel.id) in hotel_ids
-            and str(hotel.destination_id) in destination_ids
-        ]
+
+        result = []
+        for i in range(len(hotel_ids)):
+            hotel_ids[i] = hotel_ids[i].strip()
+            destination_ids[i] = destination_ids[i].strip()
+            for hotel in self.data:
+                if (hotel.id == hotel_ids[i]) and (
+                    hotel.destination_id == destination_ids[i]
+                ):
+                    result.append(hotel)
+        return result
 
 
 def custom_hotel_serializer(hotel):
